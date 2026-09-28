@@ -1,45 +1,44 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StudentProvider } from './src/context/StudentContext';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { StudentListScreen } from './src/screens/StudentListScreen';
+import { StudentDetailScreen } from './src/screens/StudentDetailScreen';
+import { AddStudentScreen } from './src/screens/AddStudentScreen';
+import { EditStudentScreen } from './src/screens/EditStudentScreen';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+const Stack = createNativeStackNavigator();
 
+function App(): React.JSX.Element {
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <StudentProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="StudentList">
+          <Stack.Screen 
+            name="StudentList" 
+            component={StudentListScreen} 
+            options={{ title: 'Danh sách sinh viên' }} 
+          />
+          <Stack.Screen 
+            name="StudentDetail" 
+            component={StudentDetailScreen} 
+            options={{ title: 'Chi tiết sinh viên' }} 
+          />
+          <Stack.Screen 
+            name="AddStudent" 
+            component={AddStudentScreen} 
+            options={{ title: 'Thêm sinh viên' }} 
+          />
+          <Stack.Screen 
+            name="EditStudent" 
+            component={EditStudentScreen} 
+            options={{ title: 'Chỉnh sửa sinh viên' }} 
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </StudentProvider>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
